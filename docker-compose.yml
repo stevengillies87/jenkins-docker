@@ -11,12 +11,11 @@ services:
             - ${HOST_PORT}:8080
             - 50000:50000
         volumes:
-            - jenkins-data:/var/jenkins_home
+            - ${HOST_JENKINS_DIR}:/var/jenkins_home
             - jenkins-docker-certs:/certs/client:ro
         networks:
             - jenkins
 volumes:
-    jenkins-data:
     jenkins-docker-certs:
 networks:
     jenkins:
