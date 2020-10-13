@@ -1,3 +1,4 @@
+# https://plugins.jenkins.io/docker-plugin/
 version: '3.8'
 
 services:
@@ -8,7 +9,6 @@ services:
             - ${HOST_PORT}:8080
         volumes:
             - jenkins-data:/var/jenkins_home:rw
-            - ${DOCKER_SOCK}:/var/run/docker.sock
         networks:
             - jenkins_net
 volumes:
