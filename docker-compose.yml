@@ -1,4 +1,3 @@
-# https://plugins.jenkins.io/docker-plugin/
 # https://devopscube.com/docker-containers-as-build-slaves-jenkins/
 version: '3.8'
 
