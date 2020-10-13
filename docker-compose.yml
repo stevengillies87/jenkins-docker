@@ -1,4 +1,5 @@
 # https://plugins.jenkins.io/docker-plugin/
+# https://devopscube.com/docker-containers-as-build-slaves-jenkins/
 version: '3.8'
 
 services:
@@ -11,6 +12,7 @@ services:
             - jenkins-data:/var/jenkins_home:rw
         networks:
             - jenkins_net
+        restart: always
 volumes:
     jenkins-data:
 networks:
