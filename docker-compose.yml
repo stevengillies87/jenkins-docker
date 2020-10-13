@@ -2,20 +2,16 @@ version: '3.8'
 
 services:
     jenkins:
+        container_name: jenkins
         image: jenkinsci/blueocean:latest
-        environment:
-            - DOCKER_HOST=tcp://docker:2376
-            - DOCKER_CERT_PATH=/certs/client 
-            - DOCKER_TLS_VERIFY=1
         ports:
             - ${HOST_PORT}:8080
-            - 50000:50000
         volumes:
-            - ${HOST_JENKINS_DIR}:/var/jenkins_home
-            - jenkins-docker-certs:/certs/client:ro
+            - jenkins-data:/var/jenkins_home:rw
+            - ${DOCKER_SOCK}:/var/run/docker.sock
         networks:
-            - jenkins
+            - jenkins_net
 volumes:
-    jenkins-docker-certs:
+    jenkins-data:
 networks:
-    jenkins:
+    jenkins_net:
