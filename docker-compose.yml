@@ -1,18 +1,37 @@
-# https://devopscube.com/docker-containers-as-build-slaves-jenkins/
+# https://www.jenkins.io/doc/book/installing/#docker
 version: '3.8'
 
 services:
     jenkins:
-        container_name: jenkins
-        image: jenkinsci/blueocean:latest
+        container_name: jenkins-blueocean
+        image: jenkinsci/blueocean
+        environment:
+            - DOCKER_HOST=tcp://docker:2376
+            - DOCKER_CERT_PATH=/certs/client
+            - DOCKER_TLS_VERIFY=1
         ports:
             - ${HOST_PORT}:8080
+            - 50000:50000
         volumes:
-            - jenkins-data:/var/jenkins_home:rw
+            - jenkins-data:/var/jenkins_home
+            - jenkins-docker-certs:/certs/client:ro
         networks:
             - jenkins_net
-        restart: always
+        depends_on: 
+            - docker
+    docker:
+        container_name: jenkins-docker
+        image: docker:dind
+        privileged: true
+        environment: 
+            - DOCKER_TLS_CERTDIR=/certs
+        volumes:
+            - jenkins-data:/var/jenkins_home
+            - jenkins-docker-certs:/certs/client
+        networks:
+            - jenkins_net
 volumes:
     jenkins-data:
+    jenkins-docker-certs:
 networks:
     jenkins_net:
